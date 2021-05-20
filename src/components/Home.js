@@ -48,8 +48,6 @@ class HomePage extends React.Component {
       <div>
         {this.state.loading ? (
           <Loader />
-        ) : this.state.products.length === 0 ? (
-          <h3>No Data Available</h3>
         ) : (
           <>
             <div className="d-flex justify-content-between">
@@ -63,35 +61,39 @@ class HomePage extends React.Component {
               </div>
             </div>
             <hr />
-            {this.state.products.map((item, index) => (
-              <Card
-                className="mt-2"
-                key={item.id}
-                actions={[
-                  <Popconfirm
-                    title="Are you sure?"
-                    onConfirm={() => this.deleteProduct(item)}
-                  >
-                    <Tag icon={<DeleteOutlined />} color="red">
-                      Delete
-                    </Tag>
-                  </Popconfirm>,
-                  <Link to={`/editProduct/${item.id}`}>
-                    <Tag icon={<EditOutlined />} color="warning">
-                      Edit
-                    </Tag>
-                  </Link>,
-                ]}
-              >
-                <Meta
-                  avatar={<Avatar src={item.image} />}
-                  title={item.name}
-                  description={item.description}
-                  onClick={() => this.openModal(item)}
-                  style={{ cursor: "pointer" }}
-                />
-              </Card>
-            ))}
+            {this.state.products.length === 0 ? (
+              <h3>No Products Available</h3>
+            ) : (
+              this.state.products.map((item, index) => (
+                <Card
+                  className="mt-2"
+                  key={item.id}
+                  actions={[
+                    <Popconfirm
+                      title="Are you sure?"
+                      onConfirm={() => this.deleteProduct(item)}
+                    >
+                      <Tag icon={<DeleteOutlined />} color="red">
+                        Delete
+                      </Tag>
+                    </Popconfirm>,
+                    <Link to={`/editProduct/${item.id}`}>
+                      <Tag icon={<EditOutlined />} color="warning">
+                        Edit
+                      </Tag>
+                    </Link>,
+                  ]}
+                >
+                  <Meta
+                    avatar={<Avatar src={item.image} />}
+                    title={item.name}
+                    description={item.description}
+                    onClick={() => this.openModal(item)}
+                    style={{ cursor: "pointer" }}
+                  />
+                </Card>
+              ))
+            )}
             <Modal
               title={this.state.data.name}
               visible={this.state.visible}
